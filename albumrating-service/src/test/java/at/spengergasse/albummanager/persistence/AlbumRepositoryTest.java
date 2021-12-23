@@ -38,6 +38,7 @@ public class AlbumRepositoryTest {
 
     @BeforeAll
     public void initDB(){
+
         mongoTemplate.dropCollection("songs");
         mongoTemplate.dropCollection("albums");
         mongoTemplate.dropCollection("artists");
@@ -68,14 +69,16 @@ public class AlbumRepositoryTest {
                             .collect(Collectors.toList())));
         }
 
-        System.out.println(albums.get(5).getAlbumName());
-
-        albums.forEach(a -> System.out.println(a.getAlbumName()));
-        albums.get(5).getSongs().forEach(s -> System.out.println(s.getArtist().getArtistName()));
+        albums = albums.stream().distinct().collect(Collectors.toList());
 
         mongoTemplate.insertAll(artists);
         mongoTemplate.insertAll(songs);
         mongoTemplate.insertAll(albums);
+
+        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
+        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
+        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
+        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
 
     }
 
@@ -91,12 +94,6 @@ public class AlbumRepositoryTest {
         assertThat(list).isNotEmpty();
     }
 
-    @Test @Order(4)
-    void findOneAlbumByAlbumName(){
-        Album album = albumRepository.findAlbumByAlbumName("The Little Foxes");
-        assertThat(album.getAlbumName()).isEqualTo("The Little Foxes");
-    }
-
     @Test @Order(3)
     void insertOneAlbum(){
         var artist = mongoTemplate.findAll(Artist.class).get(5);
@@ -107,10 +104,20 @@ public class AlbumRepositoryTest {
                         .filter(s -> s.getArtist().getArtistName().equals(artist.getArtistName()))
                         .collect(Collectors.toList()));
         albumRepository.insert(album);
-
         assertThat(albumRepository.findAlbumByAlbumName("King").getAlbumName())
                 .isEqualTo(album.getAlbumName());
+
     }
+
+    @Test @Order(4)
+    void findAlbumByAlbumName(){
+        String albumname = albums.get(0).getAlbumName();
+        if(albumname.equals(albumRepository.findAlbumByAlbumName(albumname).getAlbumName())){
+            assertThat(albumRepository.findAlbumByAlbumName(albumname).getAlbumName()).isEqualTo(albumname);
+        }
+    }
+
+
 
 
 }

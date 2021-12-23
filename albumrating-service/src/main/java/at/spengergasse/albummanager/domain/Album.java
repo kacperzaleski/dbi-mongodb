@@ -1,6 +1,5 @@
 package at.spengergasse.albummanager.domain;
 
-import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;

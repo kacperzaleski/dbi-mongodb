@@ -26,11 +26,11 @@ public class AlbumController {
     }
 
     @GetMapping("/{albumname}")
-    public Album findOne(@PathVariable String name){return albumService.findOneByName(name);}
+    public Album findOne(@PathVariable String albumname){return albumService.findOneByName(albumname);}
 
-    @DeleteMapping("/{albumname")
-    public void deleteOneAlbum(@PathVariable String name){
-        albumService.deleteAlbum(name);
+    @DeleteMapping("/{albumname}")
+    public void deleteOneAlbum(@PathVariable String albumname){
+        albumService.deleteAlbum(albumname);
     }
 
     @PostMapping
