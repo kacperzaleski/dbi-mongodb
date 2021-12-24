@@ -33,4 +33,6 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     public Collection getMappingBasePackages() {
         return Collections.singleton("at.spengergasse.albummanger");
     }
+
+
 }
