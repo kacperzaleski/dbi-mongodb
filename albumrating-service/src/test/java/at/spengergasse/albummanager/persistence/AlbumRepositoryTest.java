@@ -15,7 +15,13 @@ import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataM
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +31,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureDataMongo
-@TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
-@ImportAutoConfiguration(exclude = EmbeddedMongoAutoConfiguration.class)
+@Testcontainers
+//@TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
+//@ImportAutoConfiguration(exclude = EmbeddedMongoAutoConfiguration.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AlbumRepositoryTest {
 
     @Autowired
     private AlbumRepository albumRepository;
+
+    @Container
+    static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
+
+
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -44,6 +56,7 @@ public class AlbumRepositoryTest {
 
     @BeforeAll
     public void initDB(){
+        mongoDBContainer.start();
 
         mongoTemplate.dropCollection("songs");
         mongoTemplate.dropCollection("albums");

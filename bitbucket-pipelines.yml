@@ -11,6 +11,8 @@ pipelines:
               - mvn -B verify --file pom.xml
             after-script:
               - pipe: atlassian/checkstyle-report:0.2.0
+            services:
+              - docker
         - step:
             name: Security Scan
             script:
@@ -20,5 +22,5 @@ pipelines:
 
 definitions:
   services:
-    mongo:
-      image: mongo
+    docker:
+      memory: 2048
