@@ -40,8 +40,8 @@ public class AlbumRepositoryTest {
     @Autowired
     private AlbumRepository albumRepository;
 
-    @Container
-    static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
+    //@Container
+    //static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
 
 
 
@@ -56,7 +56,7 @@ public class AlbumRepositoryTest {
 
     @BeforeAll
     public void initDB(){
-        mongoDBContainer.start();
+        //mongoDBContainer.start();
 
         mongoTemplate.dropCollection("songs");
         mongoTemplate.dropCollection("albums");
@@ -94,10 +94,6 @@ public class AlbumRepositoryTest {
         mongoTemplate.insertAll(songs);
         mongoTemplate.insertAll(albums);
 
-        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
-        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
-        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
-        System.out.println(albumRepository.findAlbumByAlbumName(albums.get(0).getAlbumName()).getAlbumName());
 
     }
 

@@ -8,11 +8,12 @@ pipelines:
             caches:
               - maven
             script:
+              - export TESTCONTAINERS_RYUK_DISABLED=true
               - mvn -B verify --file pom.xml
             after-script:
               - pipe: atlassian/checkstyle-report:0.2.0
             services:
-              - docker
+              - mongo
         - step:
             name: Security Scan
             script:
@@ -22,5 +23,5 @@ pipelines:
 
 definitions:
   services:
-    docker:
-      memory: 2048
+    mongo:
+      image: mongo:4.0.10
