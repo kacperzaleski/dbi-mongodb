@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@FeignClient(name = "albumrating-service", url = "localhost:8081/album")
+@FeignClient(name = "albumrating-service")
 public interface AlbumratingClient {
 
     @GetMapping(value = "/{albumname}", produces = APPLICATION_JSON_VALUE)
