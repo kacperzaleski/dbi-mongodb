@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
@@ -25,7 +27,7 @@ public class AlbumController {
         return albumService.findAll();
     }
 
-    @GetMapping("/{albumname}")
+    @GetMapping(value = "/{albumname}", produces = APPLICATION_JSON_VALUE)
     public Album findOne(@PathVariable String albumname){return albumService.findOneByName(albumname);}
 
     @DeleteMapping("/{albumname}")
