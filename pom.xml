@@ -22,6 +22,7 @@
         <module>albumrating-service</module>
         <module>albummanager</module>
         <module>albumwishlist-service</module>
+        <module>testcontainers-testing</module>
     </modules>
 
 </project>

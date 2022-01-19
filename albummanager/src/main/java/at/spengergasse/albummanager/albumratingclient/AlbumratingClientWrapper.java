@@ -14,7 +14,7 @@ public class AlbumratingClientWrapper {
         this.albumratingClient = albumratingClient;
     }
 
-    @CircuitBreaker(name = "albumrating-client", fallbackMethod = "fallback_findOneAlbums")
+    @CircuitBreaker(name = "albumrating-client", fallbackMethod = "fallback_findOneAlbum")
     public AlbumDto findOne(String albumname) {return albumratingClient.findOne(albumname);}
 
     public AlbumDto fallback_findOneAlbum(String name, Throwable throwable){
