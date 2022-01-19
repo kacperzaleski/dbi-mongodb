@@ -10,6 +10,7 @@ pipelines:
             - docker image ls
           services:
             - docker
+            - mongo
       - step:
           name: Build and Test Albummanager Application
           caches:
