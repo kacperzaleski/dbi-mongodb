@@ -2,22 +2,95 @@ version: "2.4"
 
 services:
   albummanager:
-    image: albummanager:0.0.1-SNAPSHOT
+    image: albummanager:0.1
+    build:
+      context: "albummanager"
+      dockerfile: Dockerfile
+    container_name: albummanager
     ports:
-      - "8080"
+      - "8080:8080"
+    networks:
+      - spring-cloud-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+
   albumrating-service:
-    image: albumrating-service:0.0.1-SNAPSHOT
+    image: albumrating-service:0.1
+    build:
+      context: "albumrating-service"
+      dockerfile: Dockerfile
+    container_name: albumrating-service
     ports:
-      - "8081"
+      - "8081:8081"
+    networks:
+      - spring-cloud-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+
   albumwishlist-service:
-    image: albumwishlist-service:0.0.1-SNAPSHOT
+    image: albumwishlist-service:0.1
+    build:
+      context: "albumwishlist-service"
+      dockerfile: Dockerfile
+    container_name: albumwishlistservice
+    hostname: albumwishlist-service
     ports:
-      - "8082"
+      - "8082:8082"
+    networks:
+      - spring-cloud-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+
+  service-registry:
+    image: service-registry:0.1
+    build:
+      context: "service-registry"
+      dockerfile: Dockerfile
+    container_name: serviceregistry
+    hostname: service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-cloud-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+
+  config-server:
+    image: config-server:0.1
+    build:
+      context: "config-server"
+      dockerfile: Dockerfile
+    container_name: configserver
+    hostname: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - spring-cloud-network
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+
   redis:
     image: redis:3.0-alpine
+    container_name: albummanagerredis
     ports:
-      - "6379"
+      - "6379:6379"
+    networks:
+      - spring-cloud-network
+
+
   mongodb:
     image: mongo:4.0.10
+    container_name: albummanagermongo
     ports:
-      - "27017"
+      - "27017:27017"
+    networks:
+      - spring-cloud-network
+
+networks:
+  spring-cloud-network:
+    driver: bridge

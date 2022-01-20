@@ -31,10 +31,13 @@ public class AlbumService {
     }
 
     public AlbumDto insertAlbum(AlbumDto newAlbum){
-        Album album = new Album(newAlbum.getAlbumName(),
-                newAlbum.getLength(),
-                newAlbum.getArtist(),
-                newAlbum.getSongs());
+        Album album = Album.builder()
+                .albumName(newAlbum.getAlbumName())
+                .length(newAlbum.getLength())
+                .artist(newAlbum.getArtist())
+                .songs(newAlbum.getSongs())
+                .rating(newAlbum.getRating())
+                .build();
         albumRepository.insert(album);
         return AlbumDto.builder().albumName(album.getAlbumName())
                 .artist(album.getArtist())

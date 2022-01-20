@@ -67,25 +67,30 @@ public class AlbumRepositoryTest {
 
         artists = new ArrayList<>();
         for(int i = 0; i < 50; i++){
-            artists.add(new Artist(faker.artist().name()));
+            artists.add(Artist.builder().artistName(faker.artist().name()).build());
         }
 
 
         songs = new ArrayList<>();
         for(int i = 0; i < 50; i++){
-            songs.add(new Song(faker.book().title(), artists.get((int)(Math.random()*50)),
-                    (int) (Math.random()*1800)));
+            songs.add(Song.builder()
+                    .songTitle(faker.book().title())
+                    .artist(artists.get((int)(Math.random()*50)))
+                    .songduration( (int) (Math.random()*1800))
+                    .build());
         }
 
         albums = new ArrayList<>();
         for(int i = 0; i < 50; i++){
             var artist = artists.get((int)(Math.random()*50));
-            albums.add(new Album(faker.book().title(), (int) (Math.random()*7200),
-                    artist,
-                    songs
-                            .stream()
+            albums.add(Album.builder()
+                    .albumName(faker.book().title())
+                    .length((int) (Math.random()*7200))
+                    .artist(artist)
+                    .songs(songs.stream()
                             .filter(s -> s.getArtist().getArtistName().equals(artist.getArtistName()))
-                            .collect(Collectors.toList())));
+                            .collect(Collectors.toList()))
+                    .build());
         }
 
         albums = albums.stream().distinct().collect(Collectors.toList());
@@ -112,12 +117,14 @@ public class AlbumRepositoryTest {
     @Test @Order(3)
     void insertOneAlbum(){
         var artist = mongoTemplate.findAll(Artist.class).get(5);
-        Album album = new Album("King", (int) (Math.random()*7200),
-                artist,
-                songs
-                        .stream()
+        var album = Album.builder()
+                .albumName("King")
+                .length((int) (Math.random()*7200))
+                .artist(artist)
+                .songs(songs.stream()
                         .filter(s -> s.getArtist().getArtistName().equals(artist.getArtistName()))
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()))
+                .build();
         albumRepository.insert(album);
         assertThat(albumRepository.findAlbumByAlbumName("King").getAlbumName())
                 .isEqualTo(album.getAlbumName());
@@ -130,6 +137,40 @@ public class AlbumRepositoryTest {
         if(albumname.equals(albumRepository.findAlbumByAlbumName(albumname).getAlbumName())){
             assertThat(albumRepository.findAlbumByAlbumName(albumname).getAlbumName()).isEqualTo(albumname);
         }
+    }
+
+    @Test @Order(5)
+    void deleteAlbumByAlbumName(){
+        var artist = mongoTemplate.findAll(Artist.class).get(6);
+        var album = Album.builder()
+                .albumName("Illmatic")
+                .length((int) (Math.random()*7200))
+                .artist(artist)
+                .songs(songs.stream()
+                        .filter(s -> s.getArtist().getArtistName().equals(artist.getArtistName()))
+                        .collect(Collectors.toList()))
+                .build();
+        albumRepository.insert(album);
+        assertThat(albumRepository.findAlbumByAlbumName("Illmatic").getAlbumName().equals("Illmatic"));
+
+        albumRepository.deleteAlbumByAlbumName("Illmatic");
+
+        var deletedAlbum = albumRepository.findAlbumByAlbumName("Illmatic");
+
+        assertThat(deletedAlbum).isNull();
+    }
+
+
+    @Test @Order(6)
+    void updateAlbumName(){
+        var album = albumRepository.findAlbumByAlbumName("King");
+
+        album.setAlbumName("Bossaura");
+
+        albumRepository.save(album);
+
+        var updatedAlbum = albumRepository.findAlbumByAlbumName("Bossaura");
+        assertThat(updatedAlbum.getAlbumName().equals("Bossaura")).isTrue();
     }
 
 

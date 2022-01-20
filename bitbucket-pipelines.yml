@@ -2,15 +2,15 @@ image: maven:3.6.3-openjdk-17
 
 pipelines:
   default:
-      - step:
-          name: Creating the Docker Images
-          script:
-            - docker version
-            - mvn spring-boot:build-image
-            - docker image ls
-          services:
-            - docker
-            - mongo
+#      - step:
+#          name: Creating the Docker Images
+#          script:
+#            - docker version
+#            - mvn spring-boot:build-image
+#            - docker image ls
+#          services:
+ #           - docker
+#            - mongo
       - step:
           name: Build and Test Albummanager Application
           caches:

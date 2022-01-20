@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/albummanager")
 public class AlbummanagerController {
 
     private final AlbummanagerService albummanagerService;

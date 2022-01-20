@@ -1,0 +1,35 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: service-registry
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  instance:
+    hostname: localhost
+
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  application:
+    name: service-registry
+
+server:
+  port: 8761
+
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  instance:
+    hostname: service-registry

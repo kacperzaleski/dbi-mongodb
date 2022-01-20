@@ -1,7 +1,37 @@
 spring:
   application:
-    name: "albummanager"
+    name: albummanager
   cloud:
     config:
-      uri: http://localhost:8888
-      enabled: true
+      discovery:
+        enabled: true
+        service-id: config-server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  application:
+    name: albummanager
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+server:
+  port: 8080
+
+eureka:
+  instance:
+    hostname: albummanager
+  client:
+    register-with-eureka: true
+    fetch-registry: true
