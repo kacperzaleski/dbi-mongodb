@@ -1,4 +1,4 @@
-image: maven:3.6.3-openjdk-17
+image: docker/compose
 
 pipelines:
   default:
@@ -6,7 +6,7 @@ pipelines:
 #          name: Creating the Docker Images
 #          script:
 #            - docker version
-#            - mvn spring-boot:build-image
+#            - mvn package
 #            - docker image ls
 #          services:
  #           - docker
@@ -16,17 +16,22 @@ pipelines:
           caches:
             - maven
           script:
+            - ci/dependencies.sh
+            - docker-compose up
             - export TESTCONTAINERS_RYUK_DISABLED=true
-            - mvn -B install --file pom.xml
+            - mvn -B -X install --file pom.xml
           after-script:
             - pipe: atlassian/checkstyle-report:0.2.0
           services:
             - mongo
             - docker
+            - redis
 
 
 definitions:
   services:
     mongo:
       image: mongo:4.0.10
+    redis:
+      image: redis:3.0-alpine
 

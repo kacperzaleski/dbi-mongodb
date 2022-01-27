@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class AlbummanagerController {
 
     private final AlbummanagerService albummanagerService;
@@ -20,7 +21,7 @@ public class AlbummanagerController {
         this.albummanagerService = albummanagerService;
     }
 
-    @GetMapping()
+    @GetMapping("/albumrating")
     public List<AlbumDto> showAllAlbums(){
         return albummanagerService.showAlbumlist();
     }

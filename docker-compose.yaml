@@ -6,7 +6,7 @@ services:
     build:
       context: "albummanager"
       dockerfile: Dockerfile
-    container_name: albummanager
+    hostname: albummanager
     ports:
       - "8080:8080"
     networks:
@@ -20,7 +20,7 @@ services:
     build:
       context: "albumrating-service"
       dockerfile: Dockerfile
-    container_name: albumrating-service
+    hostname: albumrating-service
     ports:
       - "8081:8081"
     networks:
@@ -34,7 +34,6 @@ services:
     build:
       context: "albumwishlist-service"
       dockerfile: Dockerfile
-    container_name: albumwishlistservice
     hostname: albumwishlist-service
     ports:
       - "8082:8082"
@@ -49,7 +48,6 @@ services:
     build:
       context: "service-registry"
       dockerfile: Dockerfile
-    container_name: serviceregistry
     hostname: service-registry
     ports:
       - "8761:8761"
@@ -64,7 +62,6 @@ services:
     build:
       context: "config-server"
       dockerfile: Dockerfile
-    container_name: configserver
     hostname: config-server
     ports:
       - "8888:8888"
@@ -76,7 +73,7 @@ services:
 
   redis:
     image: redis:3.0-alpine
-    container_name: albummanagerredis
+    hostname: albummanagerredis
     ports:
       - "6379:6379"
     networks:
@@ -85,7 +82,7 @@ services:
 
   mongodb:
     image: mongo:4.0.10
-    container_name: albummanagermongo
+    hostname: albummanagermongo
     ports:
       - "27017:27017"
     networks:

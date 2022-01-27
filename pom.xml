@@ -22,6 +22,8 @@
         <module>albumrating-service</module>
         <module>albummanager</module>
         <module>albumwishlist-service</module>
+        <module>service-registry</module>
+        <module>config-server</module>
         <module>testcontainers-testing</module>
     </modules>
 

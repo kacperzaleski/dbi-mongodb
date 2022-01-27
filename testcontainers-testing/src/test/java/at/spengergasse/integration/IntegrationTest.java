@@ -22,7 +22,7 @@ class IntegrationTest {
             );
     @Test
     void test(){
-        System.out.println(composeContainer.getContainerByServiceName("albummanager").isPresent());
+        System.out.println(composeContainer.getContainerByServiceName("albummanager"));
     }
 
 }
